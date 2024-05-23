@@ -1,0 +1,26 @@
+.ComponentLink {
+  display: list-item;
+  background: none;
+  border: none;
+  padding: 0.6rem;
+  color: #bdbdbd;
+  cursor: pointer;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: 0.2s all;
+
+  &.router-link-exact-active,
+  &:hover {
+    color: #fff;
+  }
+
+  &:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.08);
+  }
+}
+
+.DisabledComponentLink {
+  pointer-events: none;
+  opacity: 0.5;
+}
