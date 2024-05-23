@@ -9,6 +9,8 @@ export default class Application extends Vue {
     return (
       <div class={styles.demo}>
         <div class={styles.headerRow}></div>
+
+        <router-view />
       </div>
     );
   }
