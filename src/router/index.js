@@ -1,10 +1,10 @@
 import Vue from "vue";
-import VueRouter, { RouteConfig } from "vue-router";
-import HomeView from "../views/HomeView.vue";
+import VueRouter from "vue-router";
+import HomeView from "../views/HomeView";
 
 Vue.use(VueRouter);
 
-const routes: Array<RouteConfig> = [
+const routes = [
   {
     path: "/",
     name: "home",
