@@ -1,22 +1,22 @@
 import { Vue, Component } from "vue-property-decorator";
 import styles from "./List.example.scss";
+import AutoSizer from "@/AutoSizer";
+import List from "./List";
 import {
   ContentBox,
   ContentBoxHeader,
   ContentBoxParagraph,
 } from "../demo/ContentBox";
-import { LabeledInput, InputRow } from "../demo/LabeledInput";
-import { generateRandomList } from "../demo/utils";
+import { LabeledInput, InputRow } from "@/demo/LabeledInput";
+import { generateRandomList } from "@/demo/utils";
 
 const list = generateRandomList();
 
-@Component({
-  name: "ListExample",
-})
+@Component({ name: "ListExample" })
 export default class ListExample extends Vue {
-  listHeight = 1000;
+  listHeight = 300;
 
-  listRowHeight = 1280;
+  listRowHeight = 50;
 
   overscanRowCount = 10;
 
@@ -37,7 +37,7 @@ export default class ListExample extends Vue {
       scrollToIndex,
       showScrollingPlaceholder,
       useDynamicRowHeight,
-    } = this;
+    } = this.$data;
 
     return (
       <ContentBox>
@@ -85,20 +85,20 @@ export default class ListExample extends Vue {
           <LabeledInput
             label="Num rows"
             name="rowCount"
-            change={this._onRowCountChange}
+            onChange={this._onRowCountChange}
             value={rowCount}
           />
           <LabeledInput
             label="Scroll to"
             name="onScrollToRow"
             placeholder="Index..."
-            change={this._onScrollToRowChange}
+            onChange={this._onScrollToRowChange}
             value={scrollToIndex || ""}
           />
           <LabeledInput
             label="List height"
             name="listHeight"
-            change={(event) =>
+            onChange={(event) =>
               (this.listHeight = parseInt(event.target.value, 10) || 1)
             }
             value={listHeight}
@@ -107,7 +107,7 @@ export default class ListExample extends Vue {
             disabled={useDynamicRowHeight}
             label="Row height"
             name="listRowHeight"
-            change={(event) =>
+            onChange={(event) =>
               (this.listRowHeight = parseInt(event.target.value, 10) || 1)
             }
             value={listRowHeight}
@@ -115,7 +115,7 @@ export default class ListExample extends Vue {
           <LabeledInput
             label="Overscan"
             name="overscanRowCount"
-            change={(event) =>
+            onChange={(event) =>
               (this.overscanRowCount = parseInt(event.target.value, 10) || 0)
             }
             value={overscanRowCount}
@@ -123,11 +123,11 @@ export default class ListExample extends Vue {
         </InputRow>
 
         <div>
-          {/* <AutoSizer disableHeight>
+          <AutoSizer disableHeight>
             {({ width }) => (
               <List
                 ref="List"
-                className={styles.List}
+                class={styles.List}
                 height={listHeight}
                 overscanRowCount={overscanRowCount}
                 noRowsRenderer={this._noRowsRenderer}
@@ -140,20 +140,32 @@ export default class ListExample extends Vue {
                 width={width}
               />
             )}
-          </AutoSizer> */}
+          </AutoSizer>
         </div>
       </ContentBox>
     );
   }
 
+  _getDatum(index) {
+    return list.get(index % list.size);
+  }
+
+  _getRowHeight({ index }) {
+    return this._getDatum(index).size;
+  }
+
+  _noRowsRenderer() {
+    return <div class={styles.noRows}>No rows</div>;
+  }
+
   _onRowCountChange(event) {
     const rowCount = parseInt(event.target.value, 10) || 0;
 
-    this.rowCount = rowCount;
+    this.$data.rowCount = rowCount;
   }
 
   _onScrollToRowChange(event) {
-    const { rowCount } = this;
+    const { rowCount } = this.$data;
     let scrollToIndex = Math.min(
       rowCount - 1,
       parseInt(event.target.value, 10),
@@ -164,5 +176,66 @@ export default class ListExample extends Vue {
     }
 
     this.scrollToIndex = scrollToIndex;
+  }
+
+  _rowRenderer({ index, isScrolling, key, style }) {
+    const { showScrollingPlaceholder, useDynamicRowHeight } = this.$data;
+
+    if (showScrollingPlaceholder && isScrolling) {
+      return (
+        <div
+          class={{
+            [styles.row]: true,
+            [styles.isScrollingPlaceholder]: true,
+          }}
+          key={key}
+          style={style}
+        >
+          Scrolling...
+        </div>
+      );
+    }
+
+    const datum = this._getDatum(index);
+
+    let additionalContent;
+
+    if (useDynamicRowHeight) {
+      switch (datum.size) {
+        case 75:
+          additionalContent = <div>It is medium-sized.</div>;
+          break;
+        case 100:
+          additionalContent = (
+            <div>
+              It is large-sized.
+              <br />
+              It has a 3rd row.
+            </div>
+          );
+          break;
+      }
+    }
+
+    return (
+      <div class={styles.row} key={key} style={style}>
+        <div
+          class={styles.letter}
+          style={{
+            backgroundColor: datum.color,
+          }}
+        >
+          {datum.name.charAt(0)}
+        </div>
+        <div>
+          <div class={styles.name}>{datum.name}</div>
+          <div class={styles.index}>This is row {index}</div>
+          {additionalContent}
+        </div>
+        {useDynamicRowHeight && (
+          <span class={styles.height}>{datum.size}px</span>
+        )}
+      </div>
+    );
   }
 }

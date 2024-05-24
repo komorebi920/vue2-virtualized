@@ -11,7 +11,7 @@ export default class NavLink extends Vue {
   @Prop({ type: String }) to;
 
   render() {
-    const { href, iconType, to, $slots } = this;
+    const { href, iconType, to } = this.$props;
 
     let link;
     let icon;
@@ -23,13 +23,13 @@ export default class NavLink extends Vue {
     if (to) {
       link = (
         <router-link class={styles.NavLink} to={to}>
-          {icon} {$slots.default}
+          {icon} {this.$slots.default}
         </router-link>
       );
     } else {
       link = (
         <a class={styles.NavLink} href={href} target="_blank">
-          {icon} {$slots.default}
+          {icon} {this.$slots.default}
         </a>
       );
     }

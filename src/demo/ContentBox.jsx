@@ -6,11 +6,11 @@ export class ContentBox extends Vue {
   @Prop({ type: Object }) styles;
 
   render() {
-    const { styles: propStyles, $slots } = this;
+    const { styles: propStyles } = this.$props;
 
     return (
       <div class={styles.ContentBox} style={propStyles}>
-        {$slots.default}
+        {this.$slots.default}
       </div>
     );
   }
@@ -27,7 +27,7 @@ export class ContentBoxHeader extends Vue {
   render() {
     const links = [];
 
-    const { text, sourceLink, docsLink } = this;
+    const { text, sourceLink, docsLink } = this.$props;
 
     if (sourceLink) {
       links.push(
@@ -62,8 +62,6 @@ export class ContentBoxHeader extends Vue {
 @Component({ name: "ContentBoxParagraph" })
 export class ContentBoxParagraph extends Vue {
   render() {
-    const { $slots } = this;
-
-    return <div class={styles.Paragraph}>{$slots.default}</div>;
+    return <div class={styles.Paragraph}>{this.$slots.default}</div>;
   }
 }

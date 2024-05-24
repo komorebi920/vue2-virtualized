@@ -16,7 +16,7 @@ export default class Icon extends Vue {
   @Prop({ type: String }) type;
 
   render() {
-    const { type } = this;
+    const { type } = this.$props;
 
     return (
       <svg class={styles.Icon} height={12} viewBox="0 0 24 24" width={12}>

@@ -9,31 +9,22 @@ export class LabeledInput extends Vue {
 
   @Prop({ type: String, required: true }) name;
 
-  @Prop({ type: Function, required: true }) change;
-
   @Prop({ type: String }) placeholder;
 
   @Prop({ type: [String, Number] }) value;
 
   get labelClassName() {
-    const { disabled } = this;
+    const { disabled } = this.$props;
     return { [styles.Label]: true, [styles.LabelDisabled]: disabled };
   }
 
   render() {
-    const {
-      disabled,
-      label,
-      name,
-      change,
-      placeholder,
-      value,
-      labelClassName,
-    } = this;
+    const { disabled, label, name, placeholder, value } = this.$props;
+    const { change: onChange } = this.$listeners;
 
     return (
       <div class={styles.LabeledInput}>
-        <label class={labelClassName} title={label}>
+        <label class={this.labelClassName} title={label}>
           {label}
         </label>
         <input
@@ -41,7 +32,7 @@ export class LabeledInput extends Vue {
           class={styles.Input}
           name={name}
           placeholder={placeholder}
-          onChange={change}
+          onChange={onChange}
           value={value}
           disabled={disabled}
         />
@@ -53,8 +44,6 @@ export class LabeledInput extends Vue {
 @Component({ name: "InputRow" })
 export class InputRow extends Vue {
   render() {
-    const { $slots } = this;
-
-    return <div class={styles.InputRow}>{$slots.default}</div>;
+    return <div class={styles.InputRow}>{this.$slots.default}</div>;
   }
 }

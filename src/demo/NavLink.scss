@@ -4,15 +4,6 @@
   align-items: center;
 }
 
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .NavLink {
   display: flex;
   flex-direction: row;
@@ -24,7 +15,7 @@
   text-transform: uppercase;
   cursor: pointer;
 
-  &.router-link-exact-active,
+  &:global(.router-link-exact-active),
   &:hover {
     color: #fff;
   }

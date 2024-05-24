@@ -1,10 +1,12 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import AutoSizerExample from "../AutoSizer/AutoSizer.example";
 import ListExample from "../List/List.example";
 
 Vue.use(VueRouter);
 
 const COMPONENT_EXAMPLES_MAP = {
+  "/components/AutoSizer": AutoSizerExample,
   "/components/List": ListExample,
 };
 

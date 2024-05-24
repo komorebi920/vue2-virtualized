@@ -4,7 +4,7 @@
  * 生成用于示例的随机数据。
  */
 export function generateRandomList() {
-  const list = [];
+  const list = new Map();
 
   for (let i = 0; i < 80000; i++) {
     const random = loremIpsum[i % loremIpsum.length];
@@ -14,7 +14,7 @@ export function generateRandomList() {
       randoms.push(loremIpsum[(i * j) % loremIpsum.length]);
     }
 
-    list.push({
+    list.set(i, {
       color: BADGE_COLORS[i % BADGE_COLORS.length],
       index: i,
       name: NAMES[i % NAMES.length],

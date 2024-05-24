@@ -9,7 +9,7 @@
   text-decoration: none;
   transition: 0.2s all;
 
-  &.router-link-exact-active,
+  &:global(.router-link-exact-active),
   &:hover {
     color: #fff;
   }
