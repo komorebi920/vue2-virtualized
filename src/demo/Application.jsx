@@ -8,7 +8,20 @@ import ComponentLink from "./ComponentLink";
 export default class Application extends Vue {
   customElement;
 
+  state = {
+    isScrollingCustomElement: false,
+  };
+
+  setScrollingCustomElement(custom) {
+    this.$set(this.state, "isScrollingCustomElement", custom);
+  }
+
   render() {
+    const { isScrollingCustomElement } = this.state;
+    const bodyStyle = isScrollingCustomElement
+      ? styles.ScrollingBody
+      : styles.Body;
+
     return (
       <div class={styles.demo}>
         <div class={styles.headerRow}>
@@ -86,10 +99,12 @@ export default class Application extends Vue {
         </div>
 
         <div
-          class={styles.bodyStyle}
+          class={bodyStyle}
           ref={(element) => (this.customElement = element)}
         >
-          <router-view />
+          <div class={styles.column}>
+            <router-view />
+          </div>
         </div>
       </div>
     );

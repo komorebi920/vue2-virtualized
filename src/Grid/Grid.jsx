@@ -215,7 +215,7 @@ export default class Grid extends Vue {
    * Set the width of the inner scrollable container to 'auto'.
    * This is useful for single-column Grids to ensure that the column doesn't extend below a vertical scrollbar.
    */
-  @Prop({ type: Boolean, default: true }) autoContainerWidth;
+  @Prop({ type: Boolean, default: false }) autoContainerWidth;
 
   /**
    * Removes fixed height from the scrollingContainer so that the total height of rows can stretch the window.
@@ -363,9 +363,6 @@ export default class Grid extends Vue {
   /** Row index to ensure visible (by forcefully scrolling if necessary) */
   @Prop({ type: Number, default: -1 }) scrollToRow;
 
-  /** Optional inline style */
-  // @Prop({ type: Object }) style;
-
   /** Tab index for focus */
   @Prop({ type: Number, default: -1 }) tabIndex;
 
@@ -374,19 +371,12 @@ export default class Grid extends Vue {
 
   state = {
     instanceProps: null,
-
     isScrolling: null,
-
     scrollDirectionHorizontal: null,
-
     scrollDirectionVertical: null,
-
     scrollLeft: null,
-
     scrollTop: null,
-
     scrollPositionChangeReason: null,
-
     needToResetStyleCache: null,
   };
 
@@ -951,7 +941,7 @@ export default class Grid extends Vue {
     );
   }
 
-  @Watch("scrollLeft")
+  @Watch("state.scrollLeft")
   watchScrollLeft(_, oldValue) {
     this.componentDidUpdate(this.$props, {
       ...this.state,
@@ -959,7 +949,7 @@ export default class Grid extends Vue {
     });
   }
 
-  @Watch("scrollTop")
+  @Watch("state.scrollTop")
   watchScrollTop(_, oldValue) {
     this.componentDidUpdate(this.$props, {
       ...this.state,
@@ -1482,14 +1472,15 @@ export default class Grid extends Vue {
       callback: ({ scrollLeft, scrollTop }) => {
         const { height, width } = this.$props;
         const { scroll: onScroll } = this.$listeners;
-        onScroll({
-          clientHeight: height,
-          clientWidth: width,
-          scrollHeight: totalRowsHeight,
-          scrollLeft,
-          scrollTop,
-          scrollWidth: totalColumnsWidth,
-        });
+        typeof onScroll === "function" &&
+          onScroll({
+            clientHeight: height,
+            clientWidth: width,
+            scrollHeight: totalRowsHeight,
+            scrollLeft,
+            scrollTop,
+            scrollWidth: totalColumnsWidth,
+          });
       },
       indices: {
         scrollLeft,

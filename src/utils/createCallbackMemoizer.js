@@ -26,7 +26,7 @@ export default function createCallbackMemoizer(requireAllKeys = true) {
     cachedIndices = indices;
 
     if (allInitialized && indexChanged) {
-      callback(indices);
+      typeof callback === "function" && callback(indices);
     }
   };
 }

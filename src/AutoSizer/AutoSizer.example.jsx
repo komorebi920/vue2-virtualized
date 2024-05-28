@@ -11,9 +11,7 @@ import { generateRandomList } from "../demo/utils";
 
 const list = generateRandomList();
 
-@Component({
-  name: "AutoSizerExample",
-})
+@Component({ name: "AutoSizerExample" })
 export default class AutoSizerExample extends Vue {
   hideDescription = false;
 
@@ -21,7 +19,7 @@ export default class AutoSizerExample extends Vue {
     const { hideDescription } = this;
 
     return (
-      <ContentBox style={{ height: 400 }}>
+      <ContentBox style={{ height: "600px" }}>
         <ContentBoxHeader
           text="AutoSizer"
           sourceLink="https://github.com/bvaughn/react-virtualized/blob/master/source/AutoSizer/AutoSizer.example.js"
@@ -78,7 +76,7 @@ export default class AutoSizerExample extends Vue {
     );
   }
 
-  _rowRenderer = ({ index, key, style }) => {
+  _rowRenderer({ index, key, style }) {
     const row = list.get(index);
 
     return (
@@ -86,5 +84,5 @@ export default class AutoSizerExample extends Vue {
         {row.name}
       </div>
     );
-  };
+  }
 }

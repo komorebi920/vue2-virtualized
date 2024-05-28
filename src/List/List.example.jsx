@@ -14,19 +14,15 @@ const list = generateRandomList();
 
 @Component({ name: "ListExample" })
 export default class ListExample extends Vue {
-  listHeight = 300;
-
-  listRowHeight = 50;
-
-  overscanRowCount = 10;
-
-  rowCount = list.size;
-
-  scrollToIndex = undefined;
-
-  showScrollingPlaceholder = false;
-
-  useDynamicRowHeight = false;
+  state = {
+    listHeight: 600,
+    listRowHeight: 50,
+    overscanRowCount: 10,
+    rowCount: list.size,
+    scrollToIndex: undefined,
+    showScrollingPlaceholder: false,
+    useDynamicRowHeight: false,
+  };
 
   render() {
     const {
@@ -37,7 +33,7 @@ export default class ListExample extends Vue {
       scrollToIndex,
       showScrollingPlaceholder,
       useDynamicRowHeight,
-    } = this.$data;
+    } = this.state;
 
     return (
       <ContentBox>
@@ -61,7 +57,11 @@ export default class ListExample extends Vue {
               class={styles.checkbox}
               type="checkbox"
               onChange={(event) =>
-                (this.useDynamicRowHeight = event.target.checked)
+                this.$set(
+                  this.state,
+                  "useDynamicRowHeight",
+                  event.target.checked,
+                )
               }
             />
             Use dynamic row heights?
@@ -74,7 +74,11 @@ export default class ListExample extends Vue {
               class={styles.checkbox}
               type="checkbox"
               onChange={(event) =>
-                (this.showScrollingPlaceholder = event.target.checked)
+                this.$set(
+                  this.state,
+                  "showScrollingPlaceholder",
+                  event.target.checked,
+                )
               }
             />
             Show scrolling placeholder?
@@ -99,7 +103,11 @@ export default class ListExample extends Vue {
             label="List height"
             name="listHeight"
             onChange={(event) =>
-              (this.listHeight = parseInt(event.target.value, 10) || 1)
+              this.$set(
+                this.state,
+                "listHeight",
+                parseInt(event.target.value, 10) || 1,
+              )
             }
             value={listHeight}
           />
@@ -108,7 +116,11 @@ export default class ListExample extends Vue {
             label="Row height"
             name="listRowHeight"
             onChange={(event) =>
-              (this.listRowHeight = parseInt(event.target.value, 10) || 1)
+              this.$set(
+                this.state,
+                "listRowHeight",
+                parseInt(event.target.value, 10) || 1,
+              )
             }
             value={listRowHeight}
           />
@@ -116,7 +128,11 @@ export default class ListExample extends Vue {
             label="Overscan"
             name="overscanRowCount"
             onChange={(event) =>
-              (this.overscanRowCount = parseInt(event.target.value, 10) || 0)
+              this.$set(
+                this.state,
+                "overscanRowCount",
+                parseInt(event.target.value, 10) || 1,
+              )
             }
             value={overscanRowCount}
           />
@@ -161,11 +177,12 @@ export default class ListExample extends Vue {
   _onRowCountChange(event) {
     const rowCount = parseInt(event.target.value, 10) || 0;
 
-    this.$data.rowCount = rowCount;
+    this.$set(this.state, "rowCount", rowCount);
   }
 
   _onScrollToRowChange(event) {
-    const { rowCount } = this.$data;
+    const { rowCount } = this.state;
+
     let scrollToIndex = Math.min(
       rowCount - 1,
       parseInt(event.target.value, 10),
@@ -175,11 +192,11 @@ export default class ListExample extends Vue {
       scrollToIndex = undefined;
     }
 
-    this.scrollToIndex = scrollToIndex;
+    this.$set(this.state, "scrollToIndex", scrollToIndex);
   }
 
   _rowRenderer({ index, isScrolling, key, style }) {
-    const { showScrollingPlaceholder, useDynamicRowHeight } = this.$data;
+    const { showScrollingPlaceholder, useDynamicRowHeight } = this;
 
     if (showScrollingPlaceholder && isScrolling) {
       return (
