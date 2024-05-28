@@ -5,7 +5,7 @@
 import "../styles.scss";
 
 import Vue from "vue";
-import router from "@/router";
+import router from "../router";
 
 import Application from "./Application";
 

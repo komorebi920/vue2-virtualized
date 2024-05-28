@@ -1,14 +1,14 @@
 import { Vue, Component } from "vue-property-decorator";
 import styles from "./List.example.scss";
-import AutoSizer from "@/AutoSizer";
+import AutoSizer from "../AutoSizer";
 import List from "./List";
 import {
   ContentBox,
   ContentBoxHeader,
   ContentBoxParagraph,
 } from "../demo/ContentBox";
-import { LabeledInput, InputRow } from "@/demo/LabeledInput";
-import { generateRandomList } from "@/demo/utils";
+import { LabeledInput, InputRow } from "../demo/LabeledInput";
+import { generateRandomList } from "../demo/utils";
 
 const list = generateRandomList();
 

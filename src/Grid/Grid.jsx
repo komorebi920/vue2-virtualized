@@ -1,7 +1,7 @@
 import { Vue, Prop, Component, Watch } from "vue-property-decorator";
 import calculateSizeAndPositionDataAndUpdateScrollOffset from "./utils/calculateSizeAndPositionDataAndUpdateScrollOffset";
 import ScalingCellSizeAndPositionManager from "./utils/ScalingCellSizeAndPositionManager";
-import createCallbackMemoizer from "@/utils/createCallbackMemoizer";
+import createCallbackMemoizer from "../utils/createCallbackMemoizer";
 import defaultOverscanIndicesGetter, {
   SCROLL_DIRECTION_BACKWARD,
   SCROLL_DIRECTION_FORWARD,
@@ -12,7 +12,7 @@ import scrollbarSize from "dom-helpers/scrollbarSize";
 import {
   requestAnimationTimeout,
   cancelAnimationTimeout,
-} from "@/utils/requestAnimationTimeout";
+} from "../utils/requestAnimationTimeout";
 
 /**
  * Specifies the number of milliseconds during which to disable pointer events while a scroll is in progress.
@@ -622,7 +622,7 @@ export default class Grid extends Vue {
     _styleCache = {};
     _cellCache = {};
 
-    this.forceUpdate();
+    this.$forceUpdate();
   }
 
   /**

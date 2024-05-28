@@ -1,15 +1,21 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import AutoSizerExample from "../AutoSizer/AutoSizer.example";
-import GridExample from "../Grid/Grid.example";
-import ListExample from "../List/List.example";
 
 Vue.use(VueRouter);
 
 const COMPONENT_EXAMPLES_MAP = {
-  "/components/AutoSizer": AutoSizerExample,
-  "/components/Grid": GridExample,
-  "/components/List": ListExample,
+  "/components/AutoSizer": () =>
+    import(
+      /* webpackChunkName: "AutoSizerExample" */ "../AutoSizer/AutoSizer.example"
+    ),
+  "/components/Grid": () =>
+    import(/* webpackChunkName: "GridExample" */ "../Grid/Grid.example"),
+  "/components/InfiniteLoader": () =>
+    import(
+      /* webpackChunkName: "InfiniteLoaderExample" */ "../InfiniteLoader/InfiniteLoader.example"
+    ),
+  "/components/List": () =>
+    import(/* webpackChunkName: "ListExample" */ "../List/List.example"),
 };
 
 const routes = [

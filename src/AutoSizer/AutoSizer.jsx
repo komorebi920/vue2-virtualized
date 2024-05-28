@@ -1,5 +1,5 @@
 import { Vue, Component, Prop } from "vue-property-decorator";
-import createDetectElementResize from "@/vendor/detectElementResize";
+import createDetectElementResize from "../vendor/detectElementResize";
 
 let _parentNode;
 
