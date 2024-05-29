@@ -1,6 +1,6 @@
 {
   "name": "vue2-virtualized",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "main": "dist/VueVirtualized.umd.min.js",
   "repository": {
     "type": "git",
