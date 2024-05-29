@@ -1,13 +1,20 @@
 {
   "name": "vue2-virtualized",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.0.0",
+  "main": "dist/VueVirtualized.umd.min.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/komorebi920/vue2-virtualized.git"
+  },
   "scripts": {
     "start": "vue-cli-service serve src/demo/index.js",
-    "build": "vue-cli-service build src/demo/index.js",
+    "build": "vue-cli-service build --target lib --name VueVirtualized --report src/index.js",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
   },
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "core-js": "^3.8.3",
     "dom-helpers": "^5.1.3",
